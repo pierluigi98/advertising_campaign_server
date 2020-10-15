@@ -32,17 +32,9 @@ public class CampaignRepositoryImpl implements CampaignRepositoryCustom {
     public List<Campaign> readWithLimit(int limit) {
 
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").exists(true));
-            try {
-                List<Campaign> list = mongoTemplate.find(query, Campaign.class, "campaign").subList(start, start + limit);
-                start = start + limit;
-                return list;
-            }
-            catch (IndexOutOfBoundsException e) {
-                start=0;
-                return null;
-            }
-
-
+        query.addCriteria(Criteria.where("_id").exists(true)).skip(start).limit(limit);
+        List<Campaign> list = mongoTemplate.find(query, Campaign.class, "campaign");
+        start=start+limit;
+        return list;
     }
 }
