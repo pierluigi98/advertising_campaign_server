@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class CampaignRepositoryImpl implements CampaignRepositoryCustom {
     private MongoTemplate mongoTemplate;
-
+    private static int start=0;
     public CampaignRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
@@ -30,8 +30,19 @@ public class CampaignRepositoryImpl implements CampaignRepositoryCustom {
 
     @Override
     public List<Campaign> readWithLimit(int limit) {
+
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").exists(true)).limit(limit);
-        return mongoTemplate.find(query,Campaign.class,"campaign");
+        query.addCriteria(Criteria.where("_id").exists(true));
+            try {
+                List<Campaign> list = mongoTemplate.find(query, Campaign.class, "campaign").subList(start, start + limit);
+                start = start + limit;
+                return list;
+            }
+            catch (IndexOutOfBoundsException e) {
+                start=0;
+                return null;
+            }
+
+
     }
 }

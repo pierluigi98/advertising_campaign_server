@@ -39,9 +39,7 @@ public class CampaignController {
 
     @GetMapping("/prova")
     public String f6()
-    {
-        return "prova";
-    }
+    { return "prova"; }
 
 
 
