@@ -27,7 +27,7 @@ public class CampaignService {
     public Campaign increment (String id,int increment,String category) {
         return campaignRepository.increment(id, increment, category);
     }
-    public List<Campaign> read (int num) {
-        return campaignRepository.readWithLimit(num);
+    public List<Campaign> read(int num, int page) {
+        return campaignRepository.readWithLimit(num,page );
     }
 }

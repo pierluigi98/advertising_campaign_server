@@ -1,11 +1,9 @@
 package com.pierluigi.advertising_campaign.Controller;
 
 import com.pierluigi.advertising_campaign.Domain.Campaign;
-import com.pierluigi.advertising_campaign.Domain.Counter;
 import com.pierluigi.advertising_campaign.Service.CampaignService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +31,8 @@ public class CampaignController {
     }
 
     @GetMapping("/readWithLimit")
-    public List<Campaign> f5(@RequestParam("limit") int limit){
-        return campaignService.read(limit);
+    public List<Campaign> f5(@RequestParam("limit") int limit,@RequestParam("page") int page){
+        return campaignService.read(limit,page);
     }
 
     @GetMapping("/prova")

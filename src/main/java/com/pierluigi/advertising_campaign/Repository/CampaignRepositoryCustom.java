@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface CampaignRepositoryCustom  {
     Campaign increment(String id, int increment, String category);
-    List<Campaign> readWithLimit (int limit);
+    List<Campaign> readWithLimit(int limit, int page);
 }
