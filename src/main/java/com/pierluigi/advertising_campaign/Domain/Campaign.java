@@ -54,4 +54,14 @@ public class Campaign {
     public void setListCounter(List<Counter> listCounter) {
         this.listCounter = listCounter;
     }
+
+    @Override
+    public String toString() {
+        return "Campaign{" +
+                "idCampaign='" + idCampaign + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", listCounter=" + listCounter +
+                '}';
+    }
 }

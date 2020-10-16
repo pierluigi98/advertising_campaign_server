@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "Plafond")
+@Document
 public class Plafond {
     public static String COLLECTION_NAME="Plafond";
     @Id
@@ -28,5 +28,13 @@ public class Plafond {
 
     public void setCounter(int counter) {
         this.counter = counter;
+    }
+
+    @Override
+    public String toString() {
+        return "Plafond{" +
+                "id=" + id +
+                ", counter=" + counter +
+                '}';
     }
 }
