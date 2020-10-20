@@ -14,6 +14,10 @@ public class Plafond {
     public Plafond() {
     }
 
+    public Plafond(int counter) {
+        this.counter = counter;
+    }
+
     public ObjectId getId() {
         return id;
     }

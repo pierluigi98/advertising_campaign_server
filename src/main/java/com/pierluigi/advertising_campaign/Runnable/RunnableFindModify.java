@@ -18,25 +18,33 @@ public class RunnableFindModify implements Runnable{
 
     private MongoTemplate mongoTemplate;
     private CountDownLatch countDownLatch;
-    private AtomicInteger atomicInteger;
-    public RunnableFindModify(MongoTemplate mongoTemplate, CountDownLatch countDownLatch) {
+    private CountDownLatch countDownLatchMain;
+    public static long time;
+
+    public RunnableFindModify(MongoTemplate mongoTemplate, CountDownLatch countDownLatch, CountDownLatch countDownLatchMain) {
         this.mongoTemplate = mongoTemplate;
         this.countDownLatch = countDownLatch;
+        this.countDownLatchMain = countDownLatchMain;
     }
 
     @Override
     public void run() {
-        Logger logger = LoggerFactory.getLogger(AdvertisingCampaignApplication.class);
+        Logger logger = LoggerFactory.getLogger(RunnableFindModify.class);
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").exists(true).and("counter").gt(0));
         Update update = new Update();
         update.inc("counter",-1);
+
         countDownLatch.countDown();
         try {
             countDownLatch.await();
-            logger.info(mongoTemplate.findAndModify(query,update, FindAndModifyOptions
-                    .options().returnNew(true),Plafond.class,"plafond").toString());
-
+            time = System.currentTimeMillis();
+            Plafond p = mongoTemplate.findAndModify(query,update, FindAndModifyOptions
+                    .options().returnNew(true),Plafond.class,"plafond");
+            countDownLatchMain.countDown();
+            if (p == null) {
+                logger.info("null");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
